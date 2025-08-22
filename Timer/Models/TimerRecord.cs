@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace Dashboard.Models
+namespace Timer.Models
 {
     public class TimerRecord
     {

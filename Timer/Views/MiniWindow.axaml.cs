@@ -4,9 +4,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
-using Dashboard.ViewModels;
+using Timer.ViewModels;
 
-namespace Dashboard.Views
+namespace Timer.Views
 {
     /// <summary>
     /// MiniWindow 迷你窗口视图类，继承自 Window

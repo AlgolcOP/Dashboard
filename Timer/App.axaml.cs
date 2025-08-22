@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Dashboard.ViewModels;
-using Dashboard.Views;
+using Timer.ViewModels;
+using Timer.Views;
 
-namespace Dashboard
+namespace Timer
 {
     /// <summary>
     /// App 应用程序主类，继承自 Application

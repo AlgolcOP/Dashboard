@@ -1,9 +1,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Dashboard.ViewModels;
+using Timer.ViewModels;
 
-namespace Dashboard
+namespace Timer
 {
     /// <summary>
     /// 视图定位器，用于根据ViewModel定位到对应的View

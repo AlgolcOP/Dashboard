@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Dashboard/App.axaml" value="Dashboard/Dashboard.csproj" />
+        <entry key="Timer/App.axaml" value="Timer/Timer.csproj" />
       </map>
     </option>
   </component>

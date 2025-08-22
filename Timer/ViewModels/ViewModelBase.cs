@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace Dashboard.ViewModels
+namespace Timer.ViewModels
 {
     /// <summary>
     /// ViewModelBase 视图模型基类，继承自 ReactiveObject

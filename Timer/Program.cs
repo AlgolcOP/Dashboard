@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 
-namespace Dashboard
+namespace Timer
 {
     /// <summary>
     /// 程序入口类

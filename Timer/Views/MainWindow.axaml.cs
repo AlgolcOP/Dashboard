@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Dashboard.Models;
-using Dashboard.ViewModels;
+using Timer.Models;
+using Timer.ViewModels;
 
-namespace Dashboard.Views
+namespace Timer.Views
 {
     /// <summary>
     /// MainWindow 主窗口视图类，继承自 Window

@@ -7,9 +7,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using Dashboard.Models;
+using Timer.Models;
 
-namespace Dashboard.Services
+namespace Timer.Services
 {
     /// <summary>
     /// TimerHistoryService 计时历史记录服务，负责保存、加载和删除历史记录
@@ -23,7 +23,7 @@ namespace Dashboard.Services
         public TimerHistoryService()
         {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var appDataPath = Path.Combine(documentsPath, "Dashboard");
+            var appDataPath = Path.Combine(documentsPath, "Timer");
 
             // 确保目录存在
             try

@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace Dashboard.Converters
+namespace Timer.Converters
 {
     /// <summary>
     /// BoolToStringConverter 布尔值与字符串之间的转换器

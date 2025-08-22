@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Threading;
-using Dashboard.Models;
-using Dashboard.Services;
 using ReactiveUI;
+using Timer.Models;
+using Timer.Services;
 
-namespace Dashboard.ViewModels
+namespace Timer.ViewModels
 {
     /// <summary>
     /// 主窗口视图模型类 - 负责管理计时器和倒计时器的业务逻辑
@@ -33,7 +33,7 @@ namespace Dashboard.ViewModels
         /// <summary>
         /// 倒计时器的定时器对象 - 用于定期更新倒计时显示
         /// </summary>
-        private readonly Timer _countdownTimer;
+        private readonly System.Threading.Timer _countdownTimer;
         /// <summary>
         /// 历史记录服务 - 负责保存和管理计时记录
         /// </summary>
@@ -41,7 +41,7 @@ namespace Dashboard.ViewModels
         /// <summary>
         /// 计时器的定时器对象 - 用于定期更新计时显示
         /// </summary>
-        private readonly Timer _timer;
+        private readonly System.Threading.Timer _timer;
         /// <summary>
         /// 计时器的线程同步信号量 - 确保计时操作的线程安全
         /// </summary>
@@ -133,9 +133,9 @@ namespace Dashboard.ViewModels
             // 初始化历史记录服务
             _historyService = new TimerHistoryService();
             // 创建计时器定时器，刷新频率50ms以获得更流畅的显示
-            _timer = new Timer(OnTimerTick, null, Timeout.Infinite, 50); // 提高刷新频率到50ms
+            _timer = new System.Threading.Timer(OnTimerTick, null, Timeout.Infinite, 50); // 提高刷新频率到50ms
             // 创建倒计时器定时器，刷新频率50ms
-            _countdownTimer = new Timer(OnCountdownTick, null, Timeout.Infinite, 50);
+            _countdownTimer = new System.Threading.Timer(OnCountdownTick, null, Timeout.Infinite, 50);
 
             // 设置默认倒计时时间为30秒
             _originalCountdownTime = TimeSpan.FromSeconds(30);

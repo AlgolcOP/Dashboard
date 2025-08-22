@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Avalonia.Threading;
 using ReactiveUI;
 
-namespace Dashboard.ViewModels
+namespace Timer.ViewModels
 {
     /// <summary>
     /// MiniWindowViewModel 迷你窗口的视图模型，负责迷你模式下的业务逻辑
@@ -13,7 +13,7 @@ namespace Dashboard.ViewModels
     public sealed class MiniWindowViewModel : ViewModelBase, IDisposable
     {
         private readonly MainWindowViewModel _mainViewModel;
-        private readonly Timer _syncTimer;
+        private readonly System.Threading.Timer _syncTimer;
 
         // 显示属性
         private string _displayTime = "00:00:00";
@@ -28,7 +28,7 @@ namespace Dashboard.ViewModels
             InitializeCommands();
 
             // 启动高频同步计时器，每50ms同步一次状态
-            _syncTimer = new Timer(SyncWithMainViewModel, null, 0, 50);
+            _syncTimer = new System.Threading.Timer(SyncWithMainViewModel, null, 0, 50);
         }
 
         // 属性
