@@ -1,0 +1,201 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Dashboard.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="130"
+        x:Class="Dashboard.Views.MiniWindow"
+        x:DataType="vm:MiniWindowViewModel"
+        Title="迷你计时器"
+        Width="245" Height="90"
+        MinWidth="200" MinHeight="80"
+        MaxWidth="260" MaxHeight="100"
+        SystemDecorations="None"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        CanResize="false"
+        ShowInTaskbar="true"
+        Topmost="true"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+
+    <Window.Styles>
+        <!-- 全局字体设置 -->
+        <Style Selector="Window">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <!-- 迷你模式专用样式 -->
+        <Style Selector="Button.mini-primary">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.mini-primary:pointerover">
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="RenderTransform" Value="scale(1.05)" />
+        </Style>
+
+        <Style Selector="Button.mini-secondary">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.mini-secondary:pointerover">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="RenderTransform" Value="scale(1.05)" />
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <vm:MiniWindowViewModel />
+    </Design.DataContext>
+
+    <!-- 主容器，添加阴影和圆角效果 -->
+    <Border Background="#3d4451"
+            CornerRadius="0"
+            Margin="0"
+            BoxShadow="0 8 32 0 #40000000"
+            BorderBrush="#5a6c7a"
+            BorderThickness="1">
+
+        <Grid RowDefinitions="*,Auto" Margin="0">
+
+            <!-- 时间显示区域 -->
+            <Border Grid.Row="0"
+                    Background="#2d3139"
+                    CornerRadius="8,8,3,3"
+                    Margin="8,8,8,4"
+                    BoxShadow="inset 0 2 8 0 #30000000">
+
+                <Grid>
+                    <!-- 背景渐变效果 -->
+                    <Border CornerRadius="8,8,3,3">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                <GradientStop Color="#2d3139" Offset="0" />
+                                <GradientStop Color="#34383f" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- 时间文本 -->
+                    <TextBlock Text="{Binding DisplayTime}"
+                               FontSize="20"
+                               FontWeight="Normal"
+                               Foreground="#FFFFFF"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Microsoft YaHei, 微软雅黑, Consolas, Monaco, 'SF Mono', 'Courier New', monospace"
+                               TextAlignment="Center"
+                               Effect="drop-shadow(0 2 4 #20000000)" />
+
+                    <!-- 模式指示器 -->
+                    <Border Background="#FFC107"
+                            CornerRadius="8"
+                            Padding="6,2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="8"
+                            IsVisible="{Binding IsCountdownMode}">
+                        <TextBlock Text="倒计时"
+                                   FontSize="8"
+                                   FontWeight="Normal"
+                                   Foreground="#2d3139" />
+                    </Border>
+
+                    <Border Background="#4CAF50"
+                            CornerRadius="8"
+                            Padding="6,2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="8"
+                            IsVisible="{Binding !IsCountdownMode}">
+                        <TextBlock Text="计时器"
+                                   FontSize="8"
+                                   FontWeight="Normal"
+                                   Foreground="White" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- 控制按钮区域 -->
+            <Grid Grid.Row="1"
+                  Margin="12,0,12,12"
+                  ColumnDefinitions="*,*,*,*">
+
+                <!-- 播放/暂停按钮 -->
+                <Button Grid.Column="0"
+                        Content="{Binding PlayPauseText}"
+                        Command="{Binding PlayPauseCommand}"
+                        Classes="mini-primary"
+                        Width="50" Height="28"
+                        Margin="2"
+                        ToolTip.Tip="播放/暂停计时器" />
+
+                <!-- 停止按钮 -->
+                <Button Grid.Column="1"
+                        Content="停止"
+                        Command="{Binding StopCommand}"
+                        Classes="mini-primary"
+                        Width="50" Height="28"
+                        Margin="2"
+                        ToolTip.Tip="停止计时器" />
+
+                <!-- 返回按钮 -->
+                <Button Grid.Column="2"
+                        Content="返回"
+                        Command="{Binding ReturnCommand}"
+                        Classes="mini-secondary"
+                        Width="50" Height="28"
+                        Margin="2"
+                        ToolTip.Tip="返回主界面" />
+
+                <!-- 退出按钮 -->
+                <Button Grid.Column="3"
+                        Content="退出"
+                        Command="{Binding ExitCommand}"
+                        Classes="mini-secondary"
+                        Width="50" Height="28"
+                        Margin="2"
+                        ToolTip.Tip="退出应用程序" />
+            </Grid>
+        </Grid>
+    </Border>
+
+</Window>

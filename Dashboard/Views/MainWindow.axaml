@@ -1,0 +1,449 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Dashboard.ViewModels"
+        xmlns:models="using:Dashboard.Models"
+        xmlns:converters="using:Dashboard.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+        x:Class="Dashboard.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Dashboard - 计时器"
+        Width="820" Height="650"
+        Background="#464c5b"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+    </Window.Resources>
+
+    <Window.Styles>
+        <!-- 全局字体设置 -->
+        <Style Selector="Window">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, SimHei, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <!-- 定义统一的样式 -->
+        <Style Selector="Button.primary /template/ ContentPresenter">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4a6382" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.primary:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3a5066" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.primary:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#354659" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <Style Selector="Button.secondary /template/ ContentPresenter">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4a6382" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.secondary:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3a5066" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.secondary:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#354659" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+        <Style Selector="Button.accent /template/ ContentPresenter">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <!-- 添加状态样式 -->
+        <Style Selector="Button.accent:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#7a8a9e" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.accent:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#657284" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Button.accent:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#5a6570" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="TextBlock.time-display">
+            <Setter Property="FontSize" Value="42" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Microsoft YaHei, 微软雅黑, Consolas, Monaco, 'Courier New', monospace" />
+            <Setter Property="Margin" Value="0,15" />
+        </Style>
+
+        <!-- 倒计时输入框样式 -->
+        <Style Selector="TextBox.countdown-input">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#5a6c7a" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style Selector="TextBox.countdown-input:focus">
+            <Setter Property="Background" Value="#415a71" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderBrush" Value="#718395" />
+        </Style>
+
+        <Style Selector="TextBox.countdown-input:pointerover">
+            <Setter Property="Background" Value="#4a6382" />
+            <Setter Property="BorderBrush" Value="#6a7c8a" />
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid Margin="20" ColumnDefinitions="3*,20,2*">
+
+        <!-- 左侧计时器和倒计时器 -->
+        <Grid Grid.Column="0" RowDefinitions="auto,20,auto">
+
+            <!-- 计时器部分 -->
+            <Border Grid.Row="0"
+                    Background="#3d4451"
+                    CornerRadius="12"
+                    Padding="25"
+                    BoxShadow="0 4 16 0 #20000000">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="⏱️ 计时器" Classes="title" />
+
+                    <!-- 时间显示 -->
+                    <TextBlock Text="{Binding TimerDisplayTime}" Classes="time-display" />
+
+                    <!-- 控制按钮 -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+                        <Button Content="{Binding TimerStartButtonText}"
+                                Command="{Binding TimerStartStopCommand}"
+                                Classes="primary"
+                                Width="80" Height="35" />
+
+                        <Button Content="停止"
+                                Command="{Binding TimerStopCommand}"
+                                Classes="primary"
+                                Width="80" Height="35" />
+
+                        <Button Content="迷你模式"
+                                Command="{Binding TimerMiniModeCommand}"
+                                Classes="primary"
+                                Width="80" Height="35" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 倒计时器部分 -->
+            <Border Grid.Row="2"
+                    Background="#3d4451"
+                    CornerRadius="12"
+                    Padding="25"
+                    BoxShadow="0 4 16 0 #20000000">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="⏰ 倒计时器" Classes="title" />
+
+                    <!-- 时间显示 -->
+                    <TextBlock Text="{Binding CountdownDisplayTime}" Classes="time-display" />
+
+                    <!-- 格式选择 -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                        <TextBlock Text="格式:"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   FontSize="13"
+                                   FontWeight="Medium" />
+                        <ComboBox SelectedIndex="{Binding CountdownDisplayModeIndex}"
+                                  Width="130"
+                                  Height="30"
+                                  BorderBrush="#5a6c7a"
+                                  Background="#415a71"
+                                  Foreground="White"
+                                  CornerRadius="6">
+                            <ComboBoxItem Content="HH:MM:SS" />
+                            <ComboBoxItem Content="MM:SS" />
+                            <ComboBoxItem Content="SS" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- 时间输入区域 -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                        <!-- 小时输入 -->
+                        <StackPanel Spacing="5" IsVisible="{Binding ShowCountdownHours}">
+                            <TextBlock Text="小时"
+                                       Foreground="White"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center" />
+                            <TextBox Text="{Binding CountdownHoursText}"
+                                     Width="50" Height="30"
+                                     Classes="countdown-input" LostFocus="CountdownHours_LostFocus" />
+                        </StackPanel>
+
+                        <TextBlock Text=":"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontWeight="Normal"
+                                   Margin="0,15,0,0"
+                                   IsVisible="{Binding ShowCountdownHours}" />
+
+                        <!-- 分钟输入 -->
+                        <StackPanel Spacing="5" IsVisible="{Binding ShowCountdownMinutes}">
+                            <TextBlock Text="分钟"
+                                       Foreground="White"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center" />
+                            <TextBox Text="{Binding CountdownMinutesText}"
+                                     Width="50" Height="30"
+                                     Classes="countdown-input" LostFocus="CountdownMinutes_LostFocus" />
+                        </StackPanel>
+
+                        <TextBlock Text=":"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   FontWeight="Normal"
+                                   Margin="0,15,0,0"
+                                   IsVisible="{Binding ShowCountdownMinutes}" />
+
+                        <!-- 秒数输入 -->
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="秒数"
+                                       Foreground="White"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center" />
+                            <TextBox Text="{Binding CountdownSecondsText}"
+                                     Width="50" Height="30"
+                                     Classes="countdown-input" LostFocus="CountdownSeconds_LostFocus" />
+                        </StackPanel>
+
+                        <!-- 设置按钮 -->
+                        <Button Content="设置"
+                                Command="{Binding SetCountdownCommand}"
+                                Classes="secondary"
+                                Width="60" Height="30"
+                                VerticalAlignment="Bottom"
+                                Margin="10,0,0,0" />
+                    </StackPanel>
+
+                    <!-- 控制按钮 -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+                        <Button Content="{Binding CountdownStartButtonText}"
+                                Command="{Binding CountdownStartStopCommand}"
+                                Classes="secondary"
+                                Width="80" Height="35" />
+
+                        <Button Content="停止"
+                                Command="{Binding CountdownStopCommand}"
+                                Classes="secondary"
+                                Width="80" Height="35" />
+
+                        <Button Content="迷你模式"
+                                Command="{Binding CountdownMiniModeCommand}"
+                                Classes="secondary"
+                                Width="80" Height="35" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- 右侧计时历史 -->
+        <Border Grid.Column="2"
+                Background="#3d4451"
+                CornerRadius="12"
+                Padding="20"
+                BoxShadow="0 4 16 0 #20000000">
+            <Grid RowDefinitions="Auto,Auto,*">
+
+                <TextBlock Grid.Row="0"
+                           Text="📋 计时历史"
+                           Classes="title"
+                           Margin="0,0,0,15" />
+
+                <Button Grid.Row="1"
+                        Content="清空历史"
+                        Command="{Binding ClearHistoryCommand}"
+                        Classes="accent"
+                        HorizontalAlignment="Center"
+                        Width="80" Height="28"
+                        Margin="0,0,0,15" />
+
+                <ScrollViewer Grid.Row="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding TimerHistory}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:TimerRecord">
+                                <Border Background="#2d3139"
+                                        CornerRadius="8"
+                                        Margin="0,0,0,10"
+                                        Padding="12"
+                                        BoxShadow="0 2 8 0 #15000000">
+                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                                        <!-- 记录名称 - 可编辑 -->
+                                        <TextBox Grid.Row="0" Grid.Column="0"
+                                                 Text="{Binding Name}"
+                                                 Foreground="#4CAF50"
+                                                 FontSize="13"
+                                                 FontWeight="Bold"
+                                                 Background="Transparent"
+                                                 BorderThickness="0"
+                                                 LostFocus="RecordName_LostFocus"
+                                                 Tag="{Binding}"
+                                                 Margin="0,0,5,0" />
+
+                                        <!-- 删除按钮 -->
+                                        <Button Grid.Row="0" Grid.Column="1"
+                                                Content="×"
+                                                Click="DeleteRecord_Click"
+                                                Tag="{Binding}"
+                                                Width="18" Height="18"
+                                                Background="Transparent"
+                                                Foreground="#999"
+                                                BorderThickness="0"
+                                                FontSize="14"
+                                                FontWeight="Bold"
+                                                Padding="0"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                CornerRadius="9" />
+
+                                        <!-- 类型标识 -->
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                   Text="{Binding IsCountdown, Converter={StaticResource BoolToStringConverter}}"
+                                                   Foreground="#FFC107"
+                                                   FontSize="11"
+                                                   FontWeight="Medium"
+                                                   Margin="0,3,0,0" />
+
+                                        <!-- 时间信息 -->
+                                        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                                    Spacing="2" Margin="0,5,0,0">
+                                            <TextBlock
+                                                Text="{Binding StartTime, StringFormat='开始: {0:MM/dd HH:mm:ss}'}"
+                                                Foreground="#B0BEC5" FontSize="10" />
+                                            <TextBlock Text="{Binding EndTime, StringFormat='结束: {0:MM/dd HH:mm:ss}'}"
+                                                       Foreground="#B0BEC5" FontSize="10" />
+                                            <TextBlock Text="{Binding Duration, StringFormat='持续: {0:hh\\:mm\\:ss}'}"
+                                                       Foreground="White" FontSize="11" FontWeight="Bold" />
+                                            <TextBlock
+                                                Text="{Binding CountdownTime, StringFormat='设定: {0:hh\\:mm\\:ss}'}"
+                                                Foreground="#FF9800" FontSize="10"
+                                                IsVisible="{Binding IsCountdown}" />
+                                        </StackPanel>
+
+                                        <!-- 备注区域 -->
+                                        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                              Margin="0,8,0,0"
+                                              ColumnDefinitions="*,Auto">
+
+                                            <TextBox Grid.Column="0"
+                                                     Text="{Binding Notes}"
+                                                     Watermark="点击添加备注..."
+                                                     Background="Transparent"
+                                                     Foreground="#E0E0E0"
+                                                     BorderThickness="0"
+                                                     FontSize="10"
+                                                     Name="NotesTextBox"
+                                                     Tag="{Binding}"
+                                                     TextWrapping="Wrap" />
+
+                                            <Button Grid.Column="1"
+                                                    Content="确认"
+                                                    Width="50" Height="25"
+                                                    Classes="accent"
+                                                    FontSize="10"
+                                                    Margin="5,0,0,0"
+                                                    Click="ConfirmNotes_Click"
+                                                    Tag="{Binding}" />
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+
+</Window>
