@@ -8,12 +8,12 @@ using Timer.ViewModels;
 namespace Timer.Views
 {
     /// <summary>
-    /// MainWindow 主窗口视图类，继承自 Window
+    ///     MainWindow 主窗口视图类，继承自 Window
     /// </summary>
     public partial class MainWindow : Window
     {
         /// <summary>
-        /// 默认构造函数，初始化组件
+        ///     默认构造函数，初始化组件
         /// </summary>
         public MainWindow()
         {

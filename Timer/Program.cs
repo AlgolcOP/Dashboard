@@ -5,12 +5,12 @@ using Avalonia.ReactiveUI;
 namespace Timer
 {
     /// <summary>
-    /// 程序入口类
+    ///     程序入口类
     /// </summary>
     internal sealed class Program
     {
         /// <summary>
-        /// 应用程序主入口点
+        ///     应用程序主入口点
         /// </summary>
         [STAThread]
         public static void Main(string[] args) => BuildAvaloniaApp()

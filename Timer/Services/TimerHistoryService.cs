@@ -12,7 +12,7 @@ using Timer.Models;
 namespace Timer.Services
 {
     /// <summary>
-    /// TimerHistoryService 计时历史记录服务，负责保存、加载和删除历史记录
+    ///     TimerHistoryService 计时历史记录服务，负责保存、加载和删除历史记录
     /// </summary>
     public class TimerHistoryService : IDisposable
     {
@@ -54,7 +54,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 异步获取历史记录
+        ///     异步获取历史记录
         /// </summary>
         /// <returns>历史记录列表</returns>
         public async Task<List<TimerRecord>> GetHistoryAsync()
@@ -103,7 +103,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 异步保存历史记录
+        ///     异步保存历史记录
         /// </summary>
         /// <param name="record">要保存的历史记录</param>
         /// <returns></returns>
@@ -163,7 +163,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 异步删除历史记录
+        ///     异步删除历史记录
         /// </summary>
         /// <param name="recordId">要删除的记录ID</param>
         /// <returns></returns>
@@ -197,7 +197,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 异步清空历史记录
+        ///     异步清空历史记录
         /// </summary>
         /// <returns></returns>
         public async Task ClearHistoryAsync()
@@ -219,7 +219,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 异步获取记录数量
+        ///     异步获取记录数量
         /// </summary>
         /// <returns>历史记录数量</returns>
         public async Task<int> GetRecordCountAsync()
@@ -229,7 +229,7 @@ namespace Timer.Services
         }
 
         /// <summary>
-        /// 根据计时类型异步获取记录
+        ///     根据计时类型异步获取记录
         /// </summary>
         /// <param name="isCountdown">是否为倒计时记录</param>
         /// <returns>符合条件的历史记录列表</returns>

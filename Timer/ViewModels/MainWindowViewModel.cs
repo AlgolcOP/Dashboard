@@ -12,121 +12,142 @@ using Timer.Services;
 namespace Timer.ViewModels
 {
     /// <summary>
-    /// 主窗口视图模型类 - 负责管理计时器和倒计时器的业务逻辑
-    /// 实现了IDisposable接口以确保资源正确释放
+    ///     主窗口视图模型类 - 负责管理计时器和倒计时器的业务逻辑
+    ///     实现了IDisposable接口以确保资源正确释放
     /// </summary>
     public sealed class MainWindowViewModel : ViewModelBase, IDisposable
     {
         // 静态计数器 - 线程安全
         /// <summary>
-        /// 计时器记录的计数器 - 用于生成唯一的计时器名称
+        ///     计时器记录的计数器 - 用于生成唯一的计时器名称
         /// </summary>
         private static int _timerCounter = 1;
+
         /// <summary>
-        /// 倒计时器记录的计数器 - 用于生成唯一的倒计时器名称
+        ///     倒计时器记录的计数器 - 用于生成唯一的倒计时器名称
         /// </summary>
         private static int _countdownCounter = 1;
+
         /// <summary>
-        /// 倒计时器的线程同步信号量 - 确保倒计时操作的线程安全
+        ///     倒计时器的线程同步信号量 - 确保倒计时操作的线程安全
         /// </summary>
         private readonly SemaphoreSlim _countdownSemaphore = new(1, 1);
+
         /// <summary>
-        /// 倒计时器的定时器对象 - 用于定期更新倒计时显示
+        ///     倒计时器的定时器对象 - 用于定期更新倒计时显示
         /// </summary>
         private readonly System.Threading.Timer _countdownTimer;
+
         /// <summary>
-        /// 历史记录服务 - 负责保存和管理计时记录
+        ///     历史记录服务 - 负责保存和管理计时记录
         /// </summary>
         private readonly TimerHistoryService _historyService;
+
         /// <summary>
-        /// 计时器的定时器对象 - 用于定期更新计时显示
+        ///     计时器的定时器对象 - 用于定期更新计时显示
         /// </summary>
         private readonly System.Threading.Timer _timer;
+
         /// <summary>
-        /// 计时器的线程同步信号量 - 确保计时操作的线程安全
+        ///     计时器的线程同步信号量 - 确保计时操作的线程安全
         /// </summary>
         private readonly SemaphoreSlim _timerSemaphore = new(1, 1);
+
         /// <summary>
-        /// 倒计时器的显示模式 - 控制时间显示格式（时分秒/分秒/秒）
+        ///     倒计时器的显示模式 - 控制时间显示格式（时分秒/分秒/秒）
         /// </summary>
         private TimerMode _countdownDisplayMode = TimerMode.HhMmSs;
+
         /// <summary>
-        /// 倒计时器显示的时间文本
+        ///     倒计时器显示的时间文本
         /// </summary>
         private string _countdownDisplayTime = "00:00:30";
+
         /// <summary>
-        /// 倒计时器已经过的时间
+        ///     倒计时器已经过的时间
         /// </summary>
         private TimeSpan _countdownElapsedTime;
 
         // 倒计时设置
         /// <summary>
-        /// 倒计时设置中的小时文本输入
+        ///     倒计时设置中的小时文本输入
         /// </summary>
         private string _countdownHoursText = "0";
+
         /// <summary>
-        /// 倒计时设置中的分钟文本输入
+        ///     倒计时设置中的分钟文本输入
         /// </summary>
         private string _countdownMinutesText = "0";
+
         /// <summary>
-        /// 倒计时设置中的秒数文本输入 - 默认30秒
+        ///     倒计时设置中的秒数文本输入 - 默认30秒
         /// </summary>
         private string _countdownSecondsText = "30";
+
         /// <summary>
-        /// 倒计时器开始按钮的显示文本
+        ///     倒计时器开始按钮的显示文本
         /// </summary>
         private string _countdownStartButtonText = "开始";
 
         // 倒计时器相关变量
         /// <summary>
-        /// 倒计时器开始的时间点
+        ///     倒计时器开始的时间点
         /// </summary>
         private DateTime _countdownStartTime;
+
         /// <summary>
-        /// 倒计时器的剩余时间
+        ///     倒计时器的剩余时间
         /// </summary>
         private TimeSpan _countdownTime;
+
         /// <summary>
-        /// 对象是否已被释放的标志
+        ///     对象是否已被释放的标志
         /// </summary>
         private bool _disposed;
+
         /// <summary>
-        /// 倒计时器是否正在运行的标志
+        ///     倒计时器是否正在运行的标志
         /// </summary>
         private bool _isCountdownRunning;
+
         /// <summary>
-        /// 计时器是否正在运行的标志
+        ///     计时器是否正在运行的标志
         /// </summary>
         private bool _isTimerRunning;
+
         /// <summary>
-        /// 倒计时器的原始设定时间 - 用于重置
+        ///     倒计时器的原始设定时间 - 用于重置
         /// </summary>
         private TimeSpan _originalCountdownTime;
+
         /// <summary>
-        /// 计时器的显示模式 - 控制时间显示格式（时分秒/分秒/秒）
+        ///     计时器的显示模式 - 控制时间显示格式（时分秒/分秒/秒）
         /// </summary>
         private TimerMode _timerDisplayMode = TimerMode.HhMmSs;
+
         /// <summary>
-        /// 计时器显示的时间文本
+        ///     计时器显示的时间文本
         /// </summary>
         private string _timerDisplayTime = "00:00:00";
+
         /// <summary>
-        /// 计时器已经过的时间
+        ///     计时器已经过的时间
         /// </summary>
         private TimeSpan _timerElapsedTime;
+
         /// <summary>
-        /// 计时器开始按钮的显示文本
+        ///     计时器开始按钮的显示文本
         /// </summary>
         private string _timerStartButtonText = "开始";
 
         // 计时器相关变量
         /// <summary>
-        /// 计时器开始的时间点
+        ///     计时器开始的时间点
         /// </summary>
         private DateTime _timerStartTime;
 
         /// <summary>
-        /// 构造函数 - 初始化所有组件和默认值
+        ///     构造函数 - 初始化所有组件和默认值
         /// </summary>
         public MainWindowViewModel()
         {
@@ -142,7 +163,7 @@ namespace Timer.ViewModels
             _countdownTime = _originalCountdownTime;
 
             // 初始化历史记录集合
-            TimerHistory = new ObservableCollection<TimerRecord>();
+            TimerHistory = [];
 
             // 初始化所有命令
             InitializeCommands();
@@ -154,7 +175,7 @@ namespace Timer.ViewModels
 
         // 计时器属性
         /// <summary>
-        /// 计时器显示的时间文本属性 - 绑定到UI显示
+        ///     计时器显示的时间文本属性 - 绑定到UI显示
         /// </summary>
         public string TimerDisplayTime
         {
@@ -163,7 +184,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 计时器开始按钮的文本属性 - 动态显示"开始"/"暂停"/"继续"
+        ///     计时器开始按钮的文本属性 - 动态显示"开始"/"暂停"/"继续"
         /// </summary>
         public string TimerStartButtonText
         {
@@ -172,7 +193,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 计时器显示模式属性 - 控制时间格式显示
+        ///     计时器显示模式属性 - 控制时间格式显示
         /// </summary>
         public TimerMode TimerDisplayMode
         {
@@ -185,7 +206,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 计时器显示模式索引 - 用于UI绑定下拉框选择
+        ///     计时器显示模式索引 - 用于UI绑定下拉框选择
         /// </summary>
         public int TimerDisplayModeIndex
         {
@@ -207,7 +228,7 @@ namespace Timer.ViewModels
 
         // 倒计时器属性
         /// <summary>
-        /// 倒计时器显示的时间文本属性 - 绑定到UI显示
+        ///     倒计时器显示的时间文本属性 - 绑定到UI显示
         /// </summary>
         public string CountdownDisplayTime
         {
@@ -216,7 +237,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时器开始按钮的文本属性 - 动态显示"开始"/"暂停"/"继续"
+        ///     倒计时器开始按钮的文本属性 - 动态显示"开始"/"暂停"/"继续"
         /// </summary>
         public string CountdownStartButtonText
         {
@@ -225,7 +246,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时器显示模式属性 - 控制时间格式显示
+        ///     倒计时器显示模式属性 - 控制时间格式显示
         /// </summary>
         public TimerMode CountdownDisplayMode
         {
@@ -238,7 +259,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时器显示模式索引 - 用于UI绑定下拉框选择
+        ///     倒计时器显示模式索引 - 用于UI绑定下拉框选择
         /// </summary>
         public int CountdownDisplayModeIndex
         {
@@ -260,19 +281,19 @@ namespace Timer.ViewModels
 
         // 可见性属性
         /// <summary>
-        /// 是否显示倒计时小时设置 - 只有在时分秒模式下才显示
+        ///     是否显示倒计时小时设置 - 只有在时分秒模式下才显示
         /// </summary>
         public bool ShowCountdownHours => _countdownDisplayMode == TimerMode.HhMmSs;
 
         /// <summary>
-        /// 是否显示倒计时分钟设置 - 在时分秒和分秒模式下显示
+        ///     是否显示倒计时分钟设置 - 在时分秒和分秒模式下显示
         /// </summary>
         public bool ShowCountdownMinutes =>
             _countdownDisplayMode == TimerMode.HhMmSs || _countdownDisplayMode == TimerMode.MmSs;
 
         // 倒计时设置属性
         /// <summary>
-        /// 倒计时小时设置的文本输入����
+        ///     倒计时小时设置的文本输入����
         /// </summary>
         public string CountdownHoursText
         {
@@ -281,7 +302,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时分钟设置的文本输入属性
+        ///     倒计时分钟设置的文本输入属性
         /// </summary>
         public string CountdownMinutesText
         {
@@ -290,7 +311,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时秒数设置的文本输入属性
+        ///     倒计时秒数设置的文本输入属性
         /// </summary>
         public string CountdownSecondsText
         {
@@ -299,61 +320,23 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 计时历史记录集合 - 绑定到UI列表显示
+        ///     计时历史记录集合 - 绑定到UI列表显示
         /// </summary>
         public ObservableCollection<TimerRecord> TimerHistory { get; }
 
-        // 命令
         /// <summary>
-        /// 计时器开始/停止命令
-        /// </summary>
-        public ICommand TimerStartStopCommand { get; private set; } = null!;
-        /// <summary>
-        /// 计时器停止命令
-        /// </summary>
-        public ICommand TimerStopCommand { get; private set; } = null!;
-        /// <summary>
-        /// 计时器进入迷你模式命令
-        /// </summary>
-        public ICommand TimerMiniModeCommand { get; private set; } = null!;
-
-        /// <summary>
-        /// 倒计时器开始/停止命令
-        /// </summary>
-        public ICommand CountdownStartStopCommand { get; private set; } = null!;
-        /// <summary>
-        /// 倒计时器停止命令
-        /// </summary>
-        public ICommand CountdownStopCommand { get; private set; } = null!;
-        /// <summary>
-        /// 倒计时器进入迷你模式命令
-        /// </summary>
-        public ICommand CountdownMiniModeCommand { get; private set; } = null!;
-        /// <summary>
-        /// 设置倒计时时间命令
-        /// </summary>
-        public ICommand SetCountdownCommand { get; private set; } = null!;
-
-        /// <summary>
-        /// 清空历史记录命令
-        /// </summary>
-        public ICommand ClearHistoryCommand { get; private set; } = null!;
-        /// <summary>
-        /// 删除单条记录命令
-        /// </summary>
-        public ICommand DeleteRecordCommand { get; private set; } = null!;
-
-        /// <summary>
-        /// 实现IDisposable接口 - 释放所有资源
+        ///     实现IDisposable接口 - 释放所有资源
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+            TimerMiniModeRequested = null;
+            CountdownMiniModeRequested = null;
         }
 
         /// <summary>
-        /// 初始化所有命令 - 绑定命令到对应的方法
+        ///     初始化所有命令 - 绑定命令到对应的方法
         /// </summary>
         private void InitializeCommands()
         {
@@ -375,47 +358,54 @@ namespace Timer.ViewModels
 
         // 事件
         /// <summary>
-        /// 计时器请求进入迷你模式事件
+        ///     计时器请求进入迷你模式事件
         /// </summary>
         public event EventHandler? TimerMiniModeRequested;
+
         /// <summary>
-        /// 倒计时器请求进入迷你模式事件
+        ///     倒计时器请求进入迷你模式事件
         /// </summary>
         public event EventHandler? CountdownMiniModeRequested;
 
         // 公共方法，用于迷你模式同步
         /// <summary>
-        /// 获取当前倒计时剩余时间 - 供迷你模式使用
+        ///     获取当前倒计时剩余时间 - 供迷你模式使用
         /// </summary>
         public TimeSpan GetCurrentCountdownTime() => _countdownTime;
+
         /// <summary>
-        /// 获取计时器运行状态 - 供迷你模式使用
+        ///     获取计时器运行状态 - 供迷你模式使用
         /// </summary>
         public bool GetIsTimerRunning() => _isTimerRunning;
+
         /// <summary>
-        /// 获取倒计时器运行状态 - 供迷你模式使用
+        ///     获取倒计时器运行状态 - 供迷你模式使用
         /// </summary>
         public bool GetIsCountdownRunning() => _isCountdownRunning;
+
         /// <summary>
-        /// 获取计时器已过时间 - 供迷你模式使用
+        ///     获取计时器已过时间 - 供迷你模式使用
         /// </summary>
         public TimeSpan GetTimerElapsedTime() => _timerElapsedTime;
+
         /// <summary>
-        /// 获取倒计时器已过时间 - 供迷你模式使用
+        ///     获取倒计时器已过时间 - 供迷你模式使用
         /// </summary>
         public TimeSpan GetCountdownElapsedTime() => _countdownElapsedTime;
+
         /// <summary>
-        /// 获取计时器开始时间 - 供迷你模式使用
+        ///     获取计时器开始时间 - 供迷你模式使用
         /// </summary>
         public DateTime GetTimerStartTime() => _timerStartTime;
+
         /// <summary>
-        /// 获取倒计时器开始时间 - 供迷你模式使用
+        ///     获取倒计时器开始时间 - 供迷你模式使用
         /// </summary>
         public DateTime GetCountdownStartTime() => _countdownStartTime;
 
         // 计时器方法 - 添加异步支持和线程安全
         /// <summary>
-        /// 计时器开始/停止的异步方法 - 使用信号量确保线程安全
+        ///     计时器开始/停止的异步方法 - 使用信号量确保线程安全
         /// </summary>
         private async Task TimerStartStopAsync()
         {
@@ -438,7 +428,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 启动计时器的异步方法
+        ///     启动计时器的异步方法
         /// </summary>
         private async Task TimerStartAsync()
         {
@@ -452,7 +442,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 暂停计时器方法
+        ///     暂停计时器方法
         /// </summary>
         private void TimerPause()
         {
@@ -463,7 +453,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 停止计时器的异步方法 - 保存记录并重置
+        ///     停止计时器的异步方法 - 保存记录并重置
         /// </summary>
         private async Task TimerStopAsync()
         {
@@ -504,7 +494,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 进入计时器迷你模式方法
+        ///     进入计时器迷你模式方法
         /// </summary>
         private void EnterTimerMiniMode()
         {
@@ -513,7 +503,7 @@ namespace Timer.ViewModels
 
         // 倒计时器方法 - 添加异步支持和线程安全
         /// <summary>
-        /// 倒计时器开始/停止的异步方法 - 使用信号量确保线程安全
+        ///     倒计时器开始/停止的异步方法 - 使用信号量确保线程安全
         /// </summary>
         private async Task CountdownStartStopAsync()
         {
@@ -536,7 +526,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 启动倒计时器的异步方法
+        ///     启动倒计时器的异步方法
         /// </summary>
         private async Task CountdownStartAsync()
         {
@@ -557,7 +547,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 暂停倒计时器方法
+        ///     暂停倒计时器方法
         /// </summary>
         private void CountdownPause()
         {
@@ -568,7 +558,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 停止倒计时器的异步方法 - 保存记录并重置
+        ///     停止倒计时器的异步方法 - 保存记录并重置
         /// </summary>
         private async Task CountdownStopAsync()
         {
@@ -610,7 +600,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 进入倒计时器迷你模式方法
+        ///     进入倒计时器迷你模式方法
         /// </summary>
         private void EnterCountdownMiniMode()
         {
@@ -618,7 +608,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 设置倒计时时间方法 - 解析用户输入并更新倒计时时间
+        ///     设置倒计时时间方法 - 解析用户输入并更新倒计时时间
         /// </summary>
         private void SetCountdown()
         {
@@ -643,7 +633,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 计时器定时器回调方法 - 每50毫秒执行一次
+        ///     计时器定时器回调方法 - 每50毫秒执行一次
         /// </summary>
         private void OnTimerTick(object? state)
         {
@@ -669,7 +659,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 倒计时器定时器回调方法 - 每50毫秒执行一次
+        ///     倒计时器定时器回调方法 - 每50毫秒执行一次
         /// </summary>
         private void OnCountdownTick(object? state)
         {
@@ -706,7 +696,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 更新计时器显示方法
+        ///     更新计时器显示方法
         /// </summary>
         private void UpdateTimerDisplay()
         {
@@ -719,7 +709,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 更新倒计时器显示方法
+        ///     更新倒计时器显示方法
         /// </summary>
         private void UpdateCountdownDisplay()
         {
@@ -732,7 +722,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 格式化时间显示的静态方法 - 根据模式返回不同格式的时间字符串
+        ///     格式化时间显示的静态方法 - 根据模式返回不同格式的时间字符串
         /// </summary>
         /// <param name="time">要格式化的时间</param>
         /// <param name="mode">显示模式</param>
@@ -749,7 +739,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 更新计时器显示格式方法
+        ///     更新计时器显示格式方法
         /// </summary>
         private void UpdateTimerDisplayFormat()
         {
@@ -757,7 +747,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 更新倒计时器显示格式方法 - 同时更新相关的可见性属性
+        ///     更新倒计时器显示格式方法 - 同时更新相关的可见性属性
         /// </summary>
         private void UpdateCountdownDisplayFormat()
         {
@@ -788,7 +778,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 异步加载历史记录方法
+        ///     异步加载历史记录方法
         /// </summary>
         private async void LoadHistoryAsync()
         {
@@ -815,7 +805,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 清空历史记录的异步方法
+        ///     清空历史记录的异步方法
         /// </summary>
         private async Task ClearHistoryAsync()
         {
@@ -831,7 +821,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 删除单条记录的异步方法
+        ///     删除单条记录的异步方法
         /// </summary>
         /// <param name="record">要删除的记录</param>
         private async Task DeleteRecordAsync(TimerRecord record)
@@ -848,7 +838,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 资源释放的内部方法
+        ///     资源释放的内部方法
         /// </summary>
         /// <param name="disposing">是否正在释放托管资源</param>
         private void Dispose(bool disposing)
@@ -866,25 +856,75 @@ namespace Timer.ViewModels
             _timerSemaphore.Dispose();
             _countdownSemaphore.Dispose();
         }
+
+#region 命令
+
+        /// <summary>
+        ///     计时器开始/停止命令
+        /// </summary>
+        public ICommand TimerStartStopCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     计时器停止命令
+        /// </summary>
+        public ICommand TimerStopCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     计时器进入迷你模式命令
+        /// </summary>
+        public ICommand TimerMiniModeCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     倒计时器开始/停止命令
+        /// </summary>
+        public ICommand CountdownStartStopCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     倒计时器停止命令
+        /// </summary>
+        public ICommand CountdownStopCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     倒计时器进入迷你模式命令
+        /// </summary>
+        public ICommand CountdownMiniModeCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     设置倒计时时间命令
+        /// </summary>
+        public ICommand SetCountdownCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     清空历史记录命令
+        /// </summary>
+        public ICommand ClearHistoryCommand { get; private set; } = null!;
+
+        /// <summary>
+        ///     删除单条记录命令
+        /// </summary>
+        public ICommand DeleteRecordCommand { get; private set; } = null!;
+
+#endregion
     }
 
     /// <summary>
-    /// 计时器显示模式枚举
+    ///     计时器显示模式枚举
     /// </summary>
     public enum TimerMode
     {
         /// <summary>
-        /// 时分秒格式 (HH:MM:SS)
+        ///     时分秒格式 (HH:MM:SS)
         /// </summary>
         HhMmSs,
+
         /// <summary>
-        /// 分秒格式 (MM:SS)
+        ///     分秒格式 (MM:SS)
         /// </summary>
         MmSs,
+
         /// <summary>
-        /// ���数格式 (SS)
+        ///     ���数格式 (SS)
         /// </summary>
         Ss
     }
 }
-

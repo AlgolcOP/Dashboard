@@ -5,6 +5,8 @@
       <map>
         <entry key="Dashboard/App.axaml" value="Dashboard/Dashboard.csproj" />
         <entry key="Timer/App.axaml" value="Timer/Timer.csproj" />
+        <entry key="Timer/Views/MainWindow.axaml" value="Timer/Timer.csproj" />
+        <entry key="Timer/Views/MiniWindow.axaml" value="Timer/Timer.csproj" />
       </map>
     </option>
   </component>
