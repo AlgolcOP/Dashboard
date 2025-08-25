@@ -9,12 +9,12 @@ using Timer.ViewModels;
 namespace Timer.Views
 {
     /// <summary>
-    /// MiniWindow 迷你窗口视图类，继承自 Window
+    ///     MiniWindow 迷你窗口视图类，继承自 Window
     /// </summary>
     public partial class MiniWindow : Window
     {
         /// <summary>
-        /// 默认构造函数，初始化组件
+        ///     默认构造函数，初始化组件
         /// </summary>
         public MiniWindow()
         {
@@ -22,7 +22,7 @@ namespace Timer.Views
         }
 
         /// <summary>
-        /// 带ViewModel参数的构造函数，设置数据上下文并订阅事件
+        ///     带ViewModel参数的构造函数，设置数据上下文并订阅事件
         /// </summary>
         /// <param name="viewModel">迷你窗口的视图模型</param>
         public MiniWindow(MiniWindowViewModel viewModel) : this()
@@ -38,7 +38,7 @@ namespace Timer.Views
         }
 
         /// <summary>
-        /// 鼠标按下事件处理，使窗口可拖动
+        ///     鼠标按下事件处理，使窗口可拖动
         /// </summary>
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {

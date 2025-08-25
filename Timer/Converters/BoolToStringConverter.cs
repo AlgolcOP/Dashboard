@@ -5,7 +5,7 @@ using Avalonia.Data.Converters;
 namespace Timer.Converters
 {
     /// <summary>
-    /// BoolToStringConverter 布尔值与字符串之间的转换器
+    ///     BoolToStringConverter 布尔值与字符串之间的转换器
     /// </summary>
     public class BoolToStringConverter : IValueConverter
     {

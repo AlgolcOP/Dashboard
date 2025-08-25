@@ -7,12 +7,12 @@ using Timer.Views;
 namespace Timer
 {
     /// <summary>
-    /// App 应用程序主类，继承自 Application
+    ///     App 应用程序主类，继承自 Application
     /// </summary>
-    public partial class App : Application
+    public class App : Application
     {
         /// <summary>
-        /// 初始化应用程序
+        ///     初始化应用程序
         /// </summary>
         public override void Initialize()
         {
@@ -20,7 +20,7 @@ namespace Timer
         }
 
         /// <summary>
-        /// 框架初始化完成后调用
+        ///     框架初始化完成后调用
         /// </summary>
         public override void OnFrameworkInitializationCompleted()
         {

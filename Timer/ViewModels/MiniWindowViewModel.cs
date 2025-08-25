@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows.Input;
 using Avalonia.Threading;
 using ReactiveUI;
@@ -8,7 +7,7 @@ using ReactiveUI;
 namespace Timer.ViewModels
 {
     /// <summary>
-    /// MiniWindowViewModel 迷你窗口的视图模型，负责迷你模式下的业务逻辑
+    ///     MiniWindowViewModel 迷你窗口的视图模型，负责迷你模式下的业务逻辑
     /// </summary>
     public sealed class MiniWindowViewModel : ViewModelBase, IDisposable
     {
@@ -33,7 +32,7 @@ namespace Timer.ViewModels
 
         // 属性
         /// <summary>
-        /// 显示的时间字符串
+        ///     显示的时间字符串
         /// </summary>
         public string DisplayTime
         {
@@ -42,7 +41,7 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 播放/暂停按钮的文本
+        ///     播放/暂停按钮的文本
         /// </summary>
         public string PlayPauseText
         {
@@ -51,30 +50,33 @@ namespace Timer.ViewModels
         }
 
         /// <summary>
-        /// 是否为倒计时模式
+        ///     是否为倒计时模式
         /// </summary>
         public bool IsCountdownMode { get; }
 
         // 命令
         /// <summary>
-        /// 播放/暂停命令
+        ///     播放/暂停命令
         /// </summary>
         public ICommand PlayPauseCommand { get; private set; } = null!;
+
         /// <summary>
-        /// 停止命令
+        ///     停止命令
         /// </summary>
         public ICommand StopCommand { get; private set; } = null!;
+
         /// <summary>
-        /// 返回主界面命令
+        ///     返回主界面命令
         /// </summary>
         public ICommand ReturnCommand { get; private set; } = null!;
+
         /// <summary>
-        /// 退出应用命令
+        ///     退出应用命令
         /// </summary>
         public ICommand ExitCommand { get; private set; } = null!;
 
         /// <summary>
-        /// 释放资源方法
+        ///     释放资源方法
         /// </summary>
         public void Dispose()
         {
@@ -102,11 +104,12 @@ namespace Timer.ViewModels
 
         // 事件
         /// <summary>
-        /// 请求返回主界面的事件
+        ///     请求返回主界面的事件
         /// </summary>
         public event EventHandler? ReturnToMainRequested;
+
         /// <summary>
-        /// 请求退出应用的事件
+        ///     请求退出应用的事件
         /// </summary>
         public event EventHandler? ExitRequested;
 
@@ -167,7 +170,7 @@ namespace Timer.ViewModels
             }
 
             _disposed = true;
-            _syncTimer?.Dispose();
+            _syncTimer.Dispose();
         }
     }
 }

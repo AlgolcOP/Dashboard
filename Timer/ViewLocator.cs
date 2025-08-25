@@ -6,7 +6,7 @@ using Timer.ViewModels;
 namespace Timer
 {
     /// <summary>
-    /// 视图定位器，用于根据ViewModel定位到对应的View
+    ///     视图定位器，用于根据ViewModel定位到对应的View
     /// </summary>
     public class ViewLocator : IDataTemplate
     {

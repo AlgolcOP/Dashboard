@@ -3,9 +3,9 @@
 namespace Timer.ViewModels
 {
     /// <summary>
-    /// ViewModelBase 视图模型基类，继承自 ReactiveObject
+    ///     ViewModelBase 视图模型基类，继承自 ReactiveObject
     /// </summary>
-    public class ViewModelBase : ReactiveUI.ReactiveObject
+    public class ViewModelBase : ReactiveObject
     {
     }
 }
